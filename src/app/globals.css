@@ -1,0 +1,666 @@
+@import "tailwindcss";
+
+.font-script {
+  font-family: 'Caveat', 'Dancing Script', cursive, sans-serif;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@keyframes gridPan {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 16px 16px;
+  }
+}
+
+.animate-grid-pan {
+  animation: gridPan 3s linear infinite;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
+  --font-heading: var(--font-outfit), system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-plus-jakarta), system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-outfit), system-ui, sans-serif;
+}
+
+/* Custom Thin Scrollbar (Transparent Track, No Gray Background) */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FC0780;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e00570;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #FC0780 transparent;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Infinite text shimmer wave animation & infinite arrow slide */
+@keyframes textShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes arrowSlide {
+
+  0%,
+  100% {
+    transform: translateX(0px);
+  }
+
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+.animate-arrow-slide {
+  animation: arrowSlide 1.2s ease-in-out infinite;
+}
+
+/* Infinite Marquee Running to Right */
+@keyframes marqueeRight {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marqueeRight 42s linear infinite;
+}
+
+/* Infinite staggered floating animation for Polaroid Cards */
+@keyframes polaroidFloat1 {
+
+  0%,
+  100% {
+    transform: rotate(-5deg) translateY(0px) scale(1);
+  }
+
+  50% {
+    transform: rotate(-3deg) translateY(-12px) scale(1.04);
+  }
+}
+
+@keyframes polaroidFloat2 {
+
+  0%,
+  100% {
+    transform: rotate(-2deg) translateY(0px) scale(1);
+  }
+
+  50% {
+    transform: rotate(0deg) translateY(-14px) scale(1.05);
+  }
+}
+
+@keyframes polaroidFloat3 {
+
+  0%,
+  100% {
+    transform: rotate(4deg) translateY(0px) scale(1);
+  }
+
+  50% {
+    transform: rotate(6deg) translateY(-10px) scale(1.04);
+  }
+}
+
+.animate-polaroid-1 {
+  animation: polaroidFloat1 4.5s ease-in-out infinite;
+}
+
+.animate-polaroid-2 {
+  animation: polaroidFloat2 4.5s ease-in-out infinite 1.5s;
+}
+
+.animate-polaroid-3 {
+  animation: polaroidFloat3 4.5s ease-in-out infinite 3.0s;
+}
+
+@keyframes gradientX {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradientX 4s ease infinite;
+}
+
+/* Infinite Silver Shimmer / Shine Sweep Effect */
+@keyframes silverShine {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+
+  50%,
+  100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+.animate-silver-shine {
+  animation: silverShine 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* 
+  Dynamic Multi-Directional 3D Airplane Flight Loop (18s Total Cycle, ~2s Center Hold per Cycle):
+  - Cycle 1 (0% to 50%):
+      • Glides in from right horizon pointing nose slightly up (-10deg).
+      • Touchdown & flare into hero center spot.
+      • Holds center for ~2s.
+      • Exit A: Banks nose UPWARD (-22deg) and ascends off-screen TOP-LEFT (-105vw, -45vh) behind text.
+      • Instantly teleports back off-screen right with opacity 0 (1s pause).
+  - Cycle 2 (50% to 100%):
+      • Glides in again smoothly from right horizon.
+      • Touchdown & flare into hero center spot.
+      • Holds center for ~2s.
+      • Exit B: Banks nose DOWNWARD (+18deg) and descends off-screen BOTTOM-LEFT (-105vw, +35vh) behind text.
+      • Instantly teleports back off-screen right to restart Cycle 1 cleanly.
+*/
+@keyframes flightLoop {
+
+  /* ==================== CYCLE 1: EXIT TOP-LEFT (NOSE UP) ==================== */
+  0%,
+  3% {
+    transform: translate(75vw, -10vh) rotate(-10deg);
+    opacity: 0;
+  }
+
+  4% {
+    opacity: 1;
+  }
+
+  /* Center Landing */
+  17% {
+    transform: translate(0px, 0px) rotate(0deg);
+    opacity: 1;
+  }
+
+  /* Center Hold (~2s) */
+  27% {
+    transform: translate(0px, 0px) rotate(0deg);
+    opacity: 1;
+  }
+
+  /* Exit A: Nose turns towards Top-Left (-22deg pitch up) along flight path */
+  42% {
+    transform: translate(-105vw, -45vh) rotate(15deg);
+    opacity: 1;
+  }
+
+  49% {
+    transform: translate(-110vw, -47vh) rotate(18deg);
+    opacity: 0;
+  }
+
+  /* Instant Teleport to Right Off-screen (opacity 0) */
+  49.01%,
+  50% {
+    transform: translate(75vw, -10vh) rotate(-10deg);
+    opacity: 0;
+  }
+
+  /* ==================== CYCLE 2: EXIT BOTTOM-LEFT (NOSE DOWN) ==================== */
+  54% {
+    opacity: 1;
+  }
+
+  /* Center Landing */
+  67% {
+    transform: translate(0px, 0px) rotate(0deg);
+    opacity: 1;
+  }
+
+  /* Center Hold (~2s) */
+  77% {
+    transform: translate(0px, 0px) rotate(0deg);
+    opacity: 1;
+  }
+
+  /* Exit B: Nose turns towards Bottom-Left (+18deg pitch down) along flight path */
+  98% {
+    transform: translate(-105vw, +35vh) rotate(-12deg);
+    opacity: 1;
+  }
+
+  99% {
+    transform: translate(-110vw, +37vh) rotate(-15deg);
+    opacity: 0;
+  }
+
+  /* Instant Teleport to Right Off-screen (opacity 0) */
+  99.01%,
+  100% {
+    transform: translate(75vw, -10vh) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+.animate-airplane-flight {
+  animation: flightLoop 13s ease-in-out infinite;
+}
+
+/* Hide Google CSE search box input bar so only Web & Image results show in 1 single overlay modal */
+.gsc-search-box {
+  display: none !important;
+}
+
+.gsc-control-cse {
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* Force Google CSE results wrapper to expand 100% width inline inside panel frame (no inner centered floating box) */
+.gsc-results-wrapper-overlay,
+.gsc-results-wrapper-visible,
+.gsc-resultsbox-visible,
+.gsc-resultsbox-overlay,
+.gsc-results-wrapper,
+.gsc-modal-background-image {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  z-index: auto !important;
+  display: block !important;
+  overflow: visible !important;
+}
+
+.gsc-modal-background-image {
+  display: none !important;
+}
+
+/* Eliminate top gap above CSE tabs & style results neatly */
+.gsc-control-cse,
+.gsc-results-wrapper-visible,
+.gsc-results-wrapper-overlay,
+.gsc-above-wrapper-area,
+.gsc-resultsRoot {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  width: 100% !important;
+}
+
+.gsc-above-wrapper-area {
+  padding-bottom: 4px !important;
+  margin-bottom: 6px !important;
+  font-size: 11px !important;
+  color: #64748b !important;
+}
+
+.gsc-tabsHeader {
+  margin-bottom: 8px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.gsc-tabHeader {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 6px 14px !important;
+  color: #64748b !important;
+}
+
+.gsc-tabHeader.gsc-tabhActive {
+  border-bottom: 2.5px solid #FC0780 !important;
+  color: #FC0780 !important;
+  font-weight: 700 !important;
+}
+
+/* Premium Card Styling for Google Web Results */
+.gsc-webResult.gsc-result {
+  padding: 12px 14px !important;
+  margin-bottom: 10px !important;
+  border-radius: 14px !important;
+  border: 1px solid #f1f5f9 !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.2s ease !important;
+}
+
+.gsc-webResult.gsc-result:hover {
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}
+
+.gs-title,
+.gs-title b {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+  text-decoration: none !important;
+}
+
+.gs-title:hover {
+  color: #FC0780 !important;
+}
+
+.gs-snippet {
+  font-size: 12px !important;
+  color: #64748b !important;
+  line-height: 1.5 !important;
+  margin-top: 4px !important;
+}
+
+/* Enhanced Larger Image Search Gallery Layout */
+.gsc-results .gsc-imageResult {
+  display: inline-block !important;
+  width: 48% !important;
+  margin: 1% !important;
+  vertical-align: top !important;
+  background: #ffffff !important;
+  border-radius: 14px !important;
+  border: 1px solid #f1f5f9 !important;
+  padding: 6px !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.gsc-results .gsc-imageResult:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.gs-image-box,
+.gs-image-box img,
+.gsc-imageResult img,
+.gs-imageResult .gs-image-box img {
+  max-height: 220px !important;
+  min-height: 150px !important;
+  width: 100% !important;
+  object-fit: cover !important;
+  border-radius: 10px !important;
+}
+
+/* Eliminate duplicate inner scrollbars from Google CSE elements */
+.gsc-results-wrapper-overlay,
+.gsc-results-wrapper-visible,
+.gsc-wrapper,
+.gsc-resultsRoot,
+.gsc-results,
+.gsc-resultsbox-visible,
+.gsc-control-cse {
+  overflow: visible !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+/* When CSE modal is NOT open, completely hide any Google CSE injected backdrop or overlay dialog on body */
+body:not(.cse-modal-open) .gsc-modal-background-image,
+body:not(.cse-modal-open) .gsc-results-wrapper-overlay,
+body:not(.cse-modal-open) .gsc-results-wrapper-visible {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+.gsc-modal-background-image {
+  display: none !important;
+}
+
+.gsc-results-close-btn,
+.gsc-close-button {
+  display: none !important;
+}
+
+body.gsc-overflow-hidden:not(.spot-modal-open) {
+  overflow: auto !important;
+}
+
+body.spot-modal-open,
+html.spot-modal-open {
+  overflow: hidden !important;
+  height: 100% !important;
+}
+
+/* Smooth custom modal scrollbar & overscroll containment with two-finger trackpad support */
+.modal-scroll-area,
+[data-lenis-prevent] {
+  touch-action: pan-y !important;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch;
+}
+.modal-scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: #FC0780 #FFF0F4;
+}
+.modal-scroll-area::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-scroll-area::-webkit-scrollbar-track {
+  background: #FFF0F4;
+  border-radius: 9999px;
+}
+.modal-scroll-area::-webkit-scrollbar-thumb {
+  background: #FC0780;
+  border-radius: 9999px;
+}
+
+/* ========================================================================= */
+/* AOS (Animate On Scroll) Section Styles */
+/* ========================================================================= */
+.aos-wrapper {
+  will-change: opacity, transform;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.aos-wrapper[data-aos="fade-up"] {
+  opacity: 0;
+  transform: translateY(45px);
+}
+
+.aos-wrapper[data-aos="fade-up"].aos-animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.aos-wrapper[data-aos="fade-down"] {
+  opacity: 0;
+  transform: translateY(-45px);
+}
+
+.aos-wrapper[data-aos="fade-down"].aos-animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.aos-wrapper[data-aos="fade"] {
+  opacity: 0;
+  transform: none;
+}
+
+.aos-wrapper[data-aos="fade"].aos-animate {
+  opacity: 1;
+  transform: none;
+}
+
+.aos-wrapper[data-aos="zoom-in"] {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.aos-wrapper[data-aos="zoom-in"].aos-animate {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.aos-wrapper.aos-done {
+  transform: none !important;
+}
+
+/* ========================================================================= */
+/* BOTANICAL / FLOWER GENTLE BREEZE WAVING ANIMATIONS                        */
+/* ========================================================================= */
+@keyframes flowerWave {
+  0%, 100% {
+    transform: rotate(0deg) translate3d(0, 0, 0) scale(1);
+  }
+  20% {
+    transform: rotate(3.2deg) translate3d(3px, -2px, 0) scale(1.012);
+  }
+  45% {
+    transform: rotate(-2.4deg) translate3d(-3px, 3px, 0) scale(0.992);
+  }
+  70% {
+    transform: rotate(2.2deg) translate3d(2px, -1px, 0) scale(1.008);
+  }
+  85% {
+    transform: rotate(-1.2deg) translate3d(-1px, 1px, 0) scale(0.996);
+  }
+}
+
+@keyframes flowerWaveAlt {
+  0%, 100% {
+    transform: rotate(0deg) translate3d(0, 0, 0) scale(1);
+  }
+  25% {
+    transform: rotate(-3deg) translate3d(-3px, -2px, 0) scale(1.012);
+  }
+  50% {
+    transform: rotate(2.5deg) translate3d(3px, 2px, 0) scale(0.992);
+  }
+  75% {
+    transform: rotate(-1.8deg) translate3d(-2px, -1px, 0) scale(1.008);
+  }
+  90% {
+    transform: rotate(1deg) translate3d(1px, 1px, 0) scale(0.998);
+  }
+}
+
+.animate-flower-wave {
+  animation: flowerWave 7s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+
+.animate-flower-wave-alt {
+  animation: flowerWaveAlt 8.5s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+
+.animate-flower-wave-slow {
+  animation: flowerWave 10s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aos-wrapper {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .animate-flower-wave,
+  .animate-flower-wave-alt,
+  .animate-flower-wave-slow {
+    animation: none !important;
+  }
+}
