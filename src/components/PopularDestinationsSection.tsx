@@ -2,7 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { scrollToPageTop } from "@/components/SmoothScroll";
 
 interface Destination {
   id: string;
@@ -11,6 +13,16 @@ interface Destination {
   image: string;
   isPopular?: boolean;
 }
+
+const destinationLinks: Record<string, string> = {
+  bali: "/explore/bali-explorer",
+  paris: "/explore",
+  santorini: "/explore",
+  switzerland: "/explore/switzerland-alpine",
+  italy: "/explore",
+  japan: "/explore",
+  maldives: "/explore/maldives-paradise",
+};
 
 const destinationsData: Destination[] = [
   {
@@ -69,6 +81,16 @@ export default function PopularDestinationsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState(2); // Santorini active initially
   const [isPaused, setIsPaused] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(1400);
+
+  // Dynamic window width tracking for responsive card layout
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Staggered Entrance Animation States
   const [titleVisible, setTitleVisible] = useState(false);
@@ -186,8 +208,9 @@ export default function PopularDestinationsSection() {
 
   return (
     <section
+      id="popular-destinations-section"
       ref={sectionRef}
-      className="relative w-full h-[100vh] min-h-[100vh] max-h-[100vh] bg-[#FFF0F4] py-[6vh] px-[4vw] overflow-hidden flex flex-col items-center select-none z-10"
+      className="relative w-full min-h-screen lg:h-screen lg:max-h-screen bg-[#FFF0F4] py-3 sm:py-5 md:py-[2.5vh] px-3 sm:px-6 md:px-[3vw] overflow-hidden flex flex-col justify-between items-center select-none z-10"
     >
       {/* Background Graphic Stream (section2bg.webp) with Soft Faded Edge Blends */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
@@ -203,15 +226,15 @@ export default function PopularDestinationsSection() {
       </div>
 
       {/* Main Header Container with Staggered Entrance */}
-      <div className="relative z-10 flex flex-col items-center text-center w-full">
+      <div className="relative z-10 flex flex-col items-center text-center w-full mt-1 sm:mt-2 md:mt-[1vh]">
         {/* Stacked Heading: Faded "Destinations" + Foreground "Top Travel" (1st Line) */}
-        <div className="relative flex flex-col items-center justify-center mt-[6vw] mb-[4vw] w-full">
+        <div className="relative flex flex-col items-center justify-center mb-1 sm:mb-2 md:mb-[1.2vh] w-full">
           {/* Faded Background Text with Dramatic Zoom, Blur & Fade */}
           <h2
-            className={`text-[clamp(75px,14vw,190px)] font-black text-[#FFB6C1] tracking-normal italic leading-none select-none [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_40%,rgba(0,0,0,0.15)_85%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_40%,rgba(0,0,0,0.15)_85%,rgba(0,0,0,0)_100%)] transition-all duration-900 ease-out ${
+            className={`text-[clamp(48px,7.5vw,130px)] font-black text-[#FFB6C1] tracking-normal italic leading-none select-none [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_40%,rgba(0,0,0,0.15)_85%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_40%,rgba(0,0,0,0.15)_85%,rgba(0,0,0,0)_100%)] transition-all duration-900 ease-out ${
               titleVisible
                 ? "opacity-100 scale-100 translate-y-0 blur-none"
-                : "opacity-0 scale-90 translate-y-12 blur-sm"
+                : "opacity-0 scale-90 translate-y-6 blur-sm"
             }`}
           >
             Destinations
@@ -219,23 +242,23 @@ export default function PopularDestinationsSection() {
 
           {/* Foreground Script Title with Elastic Spring Entrance */}
           <div
-            className={`absolute top-[10%] left-[50%] transform -translate-x-[50%] whitespace-nowrap flex items-center gap-2 z-20 transition-all duration-900 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+            className={`absolute top-[8%] left-[50%] transform -translate-x-[50%] whitespace-nowrap flex items-center gap-2 z-20 transition-all duration-900 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
               titleVisible
-                ? "opacity-100 -translate-y-[55%] scale-100 rotate-0"
+                ? "opacity-100 -translate-y-[50%] scale-100 rotate-0"
                 : "opacity-0 -translate-y-[110%] scale-75 -rotate-6"
             }`}
           >
-            <span className="text-[clamp(42px,7.5vw,95px)] font-bold text-[#141416]/80 italic font-serif tracking-tight drop-shadow-sm">
+            <span className="text-[clamp(28px,4.5vw,72px)] font-bold text-[#141416]/80 italic font-serif tracking-tight drop-shadow-sm">
               Top Travel
             </span>
           </div>
 
           {/* Subtitle (Next Line): Fades in smoothly after the title */}
           <p
-            className={`absolute -bottom-[5%] left-[50%] transform -translate-x-[50%] z-20 text-[clamp(15px,1.5vw,17px)] text-gray-600 font-semibold tracking-wide whitespace-nowrap transition-all duration-700 ease-out ${
+            className={`absolute -bottom-[14%] sm:-bottom-[10%] left-[50%] transform -translate-x-[50%] z-20 text-[clamp(12px,1.2vw,16px)] text-gray-600 font-semibold tracking-wide whitespace-nowrap transition-all duration-700 ease-out ${
               subtitleVisible
                 ? "opacity-100 translate-y-0 blur-none"
-                : "opacity-0 translate-y-8 blur-xs"
+                : "opacity-0 translate-y-4 blur-xs"
             }`}
           >
             Explore breathtaking places, create unforgettable memories.
@@ -245,7 +268,7 @@ export default function PopularDestinationsSection() {
 
       {/* Interactive Destination Cards Fan-Out Carousel Container */}
       <div
-        className="relative z-10 w-full max-w-[1400px] flex items-center justify-center px-[2vw]"
+        className="relative z-10 w-full max-w-[1400px] flex items-center justify-center px-1 sm:px-4 md:px-[2vw] mb-2 sm:mb-4 md:mb-[2vh]"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -253,15 +276,15 @@ export default function PopularDestinationsSection() {
         <button
           onClick={handlePrev}
           aria-label="Previous Destination"
-          className={`absolute left-[1vw] z-40 w-12 h-12 rounded-full bg-white/90 backdrop-blur-md border border-white shadow-[0_8px_20px_rgba(0,0,0,0.1)] text-gray-700 hover:bg-[#FF2A75] hover:text-white transition-all duration-500 flex items-center justify-center group cursor-pointer hover:scale-110 ${
+          className={`absolute left-0 sm:left-2 md:left-[1vw] z-40 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-md border border-white shadow-[0_8px_20px_rgba(0,0,0,0.1)] text-gray-700 hover:bg-[#FF2A75] hover:text-white transition-all duration-500 flex items-center justify-center group cursor-pointer hover:scale-110 ${
             carouselStarted ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-75 pointer-events-none"
           }`}
         >
-          <Icon icon="ph:arrow-left-bold" className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+          <Icon icon="ph:arrow-left-bold" className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-0.5 transition-transform" />
         </button>
 
         {/* Absolute Position Stacking Container - 5 Visible Arched Cards with Dramatic Spring Stagger */}
-        <div className="relative w-full h-[360px] md:h-[420px] flex items-center justify-center overflow-visible">
+        <div className="relative w-full h-[clamp(260px,38vh,360px)] flex items-center justify-center overflow-visible">
           {destinationsData.map((item, i) => {
             // Pos calculation: (i - activeIndex + length) % length
             const rawPos = (i - activeIndex + destinationsData.length) % destinationsData.length;
@@ -279,26 +302,36 @@ export default function PopularDestinationsSection() {
             const slotIndex = relativeOffset + 2;
             const isCardRevealed = revealedCards > slotIndex;
 
+            // Step distance adapted to screen width
+            const stepX =
+              windowWidth < 640
+                ? 110
+                : windowWidth < 1024
+                ? 155
+                : windowWidth < 1280
+                ? 185
+                : 215;
+
             // 5 Visible Card Slots: -2 (far left), -1 (left), 0 (center), 1 (right), 2 (far right)
-            let posX = relativeOffset * 220; // 220px step distance per slot
-            let posY = isCenter ? -10 : absOffset * 12; // Arched vertical curve
-            let scale = isCenter ? 1.05 : absOffset === 1 ? 0.88 : 0.76; // Card scaling
-            let rotate = relativeOffset * 4.5; // Fan-out rotation
+            let posX = relativeOffset * stepX;
+            let posY = isCenter ? -8 : absOffset * 10; // Arched vertical curve
+            let scale = isCenter ? 1.04 : absOffset === 1 ? 0.88 : 0.76; // Card scaling
+            let rotate = relativeOffset * 4; // Fan-out rotation
             let baseOpacity = absOffset <= 2 ? 1 : 0; // Show 5 cards, hide offscreen
             let zIndex = isCenter ? 30 : 30 - absOffset * 10;
 
-            // Dynamic size classes
+            // Adaptive card width & height (clamped with vh/vw so it fits on short laptops as well as tall desktops)
             const widthClass = isCenter
-              ? "w-[15vw] min-w-[185px]"
+              ? "w-[clamp(160px,13.5vw,215px)]"
               : absOffset === 1
-              ? "w-[13vw] min-w-[160px]"
-              : "w-[11.5vw] min-w-[140px]";
+              ? "w-[clamp(140px,11.5vw,185px)]"
+              : "w-[clamp(120px,10vw,160px)]";
 
             const heightClass = isCenter
-              ? "h-[19.5vw] min-h-[245px]"
+              ? "h-[clamp(220px,33vh,300px)]"
               : absOffset === 1
-              ? "h-[17vw] min-h-[215px]"
-              : "h-[15vw] min-h-[190px]";
+              ? "h-[clamp(195px,29vh,265px)]"
+              : "h-[clamp(170px,25vh,230px)]";
 
             // Dramatic, highly visible spring entrance before reveal
             const currentOpacity = isCardRevealed ? baseOpacity : 0;
@@ -322,22 +355,22 @@ export default function PopularDestinationsSection() {
                   zIndex: zIndex,
                   transition: transitionStyle,
                 }}
-                className={`absolute top-[50%] left-[50%] flex-shrink-0 cursor-pointer rounded-[26px] bg-white p-[8px] shadow-[0_20px_50px_rgba(255,42,117,0.14)] border-2 border-white ${widthClass} ${heightClass} ${
+                className={`absolute top-[50%] left-[50%] flex-shrink-0 cursor-pointer rounded-[22px] sm:rounded-[26px] bg-white p-[6px] sm:p-[8px] shadow-[0_16px_40px_rgba(255,42,117,0.14)] border-2 border-white ${widthClass} ${heightClass} ${
                   isCenter
-                    ? "shadow-[0_30px_60px_rgba(255,42,117,0.28)] border-[#FF2A75]/50 z-30"
+                    ? "shadow-[0_24px_50px_rgba(255,42,117,0.26)] border-[#FF2A75]/50 z-30"
                     : "hover:border-[#FF2A75]/30"
                 }`}
               >
                 {/* Most Popular Badge */}
                 {item.isPopular && (
-                  <div className="absolute top-[14px] left-[14px] z-20 flex items-center gap-1.5 bg-[#FF2A75] text-white px-3 py-1 rounded-full text-[11px] font-bold shadow-md">
-                    <span className="text-xs">🔥</span>
+                  <div className="absolute top-2 sm:top-[12px] left-2 sm:left-[12px] z-20 flex items-center gap-1 bg-[#FF2A75] text-white px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold shadow-md">
+                    <span className="text-[10px] sm:text-xs">🔥</span>
                     <span>Most Popular</span>
                   </div>
                 )}
 
                 {/* Inner Image Container */}
-                <div className="relative w-full h-[calc(100%-60px)] rounded-[20px] overflow-hidden bg-gray-100">
+                <div className="relative w-full h-[calc(100%-48px)] sm:h-[calc(100%-54px)] rounded-[16px] sm:rounded-[20px] overflow-hidden bg-gray-100">
                   <Image
                     src={item.image}
                     alt={`${item.name}, ${item.country}`}
@@ -349,25 +382,33 @@ export default function PopularDestinationsSection() {
                 </div>
 
                 {/* Bottom Floating Info Pill with Pink Glow Shadow on Hover */}
-                <div className="absolute bottom-[8px] left-[8px] right-[8px] bg-white/95 backdrop-blur-md rounded-[16px] p-2.5 shadow-md hover:shadow-[0_8px_25px_rgba(255,42,117,0.35)] flex items-center justify-between border border-white/80 hover:border-[#FF2A75]/40 transition-all duration-300 group/pill">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full bg-[#FF2A75]/10 flex items-center justify-center flex-shrink-0">
-                      <Icon icon="ph:map-pin-fill" className="w-3.5 h-3.5 text-[#FF2A75]" />
+                <div className="absolute bottom-1.5 sm:bottom-2 left-1.5 sm:left-2 right-1.5 sm:right-2 bg-white/95 backdrop-blur-md rounded-[12px] sm:rounded-[14px] p-1.5 sm:p-2 shadow-md hover:shadow-[0_8px_25px_rgba(255,42,117,0.35)] flex items-center justify-between border border-white/80 hover:border-[#FF2A75]/40 transition-all duration-300 group/pill">
+                  <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full bg-[#FF2A75]/10 flex items-center justify-center flex-shrink-0">
+                      <Icon icon="ph:map-pin-fill" className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#FF2A75]" />
                     </div>
-                    <div className="flex flex-col">
-                      <span className="text-xs font-extrabold text-[#141416] leading-tight">
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-[10px] sm:text-[11px] md:text-xs font-extrabold text-[#141416] leading-tight truncate">
                         {item.name}
                       </span>
-                      <span className="text-[10px] font-medium text-gray-500">
+                      <span className="text-[8px] sm:text-[9px] md:text-[10px] font-medium text-gray-500 truncate">
                         {item.country}
                       </span>
                     </div>
                   </div>
 
                   {/* Arrow Action Button with Pink Faded Glow Shadow on Hover */}
-                  <div className="w-7 h-7 rounded-full bg-[#FF2A75] text-white flex items-center justify-center shadow-sm hover:scale-115 hover:shadow-[0_0_16px_rgba(255,42,117,0.8)] transition-all duration-300">
-                    <Icon icon="ph:arrow-right-bold" className="w-3.5 h-3.5" />
-                  </div>
+                  <Link
+                    href={destinationLinks[item.id] || "/explore"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      scrollToPageTop(true);
+                    }}
+                    title={`View ${item.name} Packages`}
+                    className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full bg-[#FF2A75] text-white flex items-center justify-center shadow-sm hover:scale-115 hover:shadow-[0_0_16px_rgba(255,42,117,0.8)] transition-all duration-300 flex-shrink-0 ml-1 cursor-pointer"
+                  >
+                    <Icon icon="ph:arrow-right-bold" className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" />
+                  </Link>
                 </div>
               </div>
             );
@@ -378,11 +419,11 @@ export default function PopularDestinationsSection() {
         <button
           onClick={handleNext}
           aria-label="Next Destination"
-          className={`absolute right-[1vw] z-40 w-12 h-12 rounded-full bg-white/90 backdrop-blur-md border border-white shadow-[0_8px_20px_rgba(0,0,0,0.1)] text-gray-700 hover:bg-[#FF2A75] hover:text-white transition-all duration-500 flex items-center justify-center group cursor-pointer hover:scale-110 ${
+          className={`absolute right-0 sm:right-2 md:right-[1vw] z-40 w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-white/90 backdrop-blur-md border border-white shadow-[0_8px_20px_rgba(0,0,0,0.1)] text-gray-700 hover:bg-[#FF2A75] hover:text-white transition-all duration-500 flex items-center justify-center group cursor-pointer hover:scale-110 ${
             carouselStarted ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-75 pointer-events-none"
           }`}
         >
-          <Icon icon="ph:arrow-right-bold" className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+          <Icon icon="ph:arrow-right-bold" className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-0.5 transition-transform" />
         </button>
       </div>
     </section>

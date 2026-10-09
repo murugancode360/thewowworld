@@ -3,7 +3,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import Image from "next/image";
+import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { scrollToPageTop } from "@/components/SmoothScroll";
 
 interface PlaceItem {
   title: string;
@@ -927,15 +929,23 @@ export default function GallerySection() {
               }}
               className="flex items-center gap-[1vw] mt-[1.5vh]"
             >
-              <button className="px-[1.6vw] py-[0.7vw] bg-[#FF2A75] text-white font-extrabold text-[0.95vw] rounded-full shadow-[0_0.5vw_1.5vw_rgba(255,42,117,0.35)] hover:shadow-[0_0.8vw_2vw_rgba(255,42,117,0.5)] hover:scale-105 transition-all duration-300 flex items-center gap-[0.5vw] cursor-pointer group">
+              <Link
+                href="/explore/50-things-to-do-in-dubai"
+                onClick={() => scrollToPageTop(true)}
+                className="px-[1.6vw] py-[0.7vw] bg-[#FF2A75] text-white font-extrabold text-[0.95vw] rounded-full shadow-[0_0.5vw_1.5vw_rgba(255,42,117,0.35)] hover:shadow-[0_0.8vw_2vw_rgba(255,42,117,0.5)] hover:scale-105 transition-all duration-300 flex items-center gap-[0.5vw] cursor-pointer group"
+              >
                 <span>Explore Attraction</span>
                 <Icon icon="lucide:arrow-right" className="w-[1vw] h-[1vw] group-hover:translate-x-1 transition-transform" />
-              </button>
+              </Link>
 
-              <button className="px-[1.6vw] py-[0.7vw] bg-white/80 hover:bg-white text-gray-800 font-bold text-[0.95vw] rounded-full border border-gray-200 shadow-sm hover:scale-105 transition-all duration-300 flex items-center gap-[0.5vw] cursor-pointer">
+              <Link
+                href="/plan-trip"
+                onClick={() => scrollToPageTop(true)}
+                className="px-[1.6vw] py-[0.7vw] bg-white/80 hover:bg-white text-gray-800 font-bold text-[0.95vw] rounded-full border border-gray-200 shadow-sm hover:scale-105 transition-all duration-300 flex items-center gap-[0.5vw] cursor-pointer"
+              >
                 <Icon icon="ph:heart-bold" className="w-[1vw] h-[1vw] text-[#FF2A75]" />
                 <span>Save Place</span>
-              </button>
+              </Link>
             </div>
           </div>
 

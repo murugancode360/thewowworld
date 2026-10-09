@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { scrollToPageTop } from "@/components/SmoothScroll";
 
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
@@ -151,7 +152,11 @@ export default function Footer() {
           >
             {/* Logo & Text like in Navbar */}
             <div className="flex flex-col items-start">
-              <Link href="/" className="flex items-center gap-[0.4vw] group cursor-pointer">
+              <Link
+                href="/"
+                onClick={() => scrollToPageTop(true)}
+                className="flex items-center gap-[0.4vw] group cursor-pointer"
+              >
                 <div className="relative w-[3vw] h-[3vw] min-w-[38px] min-h-[38px] drop-shadow-[0_0_12px_rgba(255,42,117,0.4)]">
                   <Image
                     src="/navBar/logo.svg"
@@ -194,7 +199,7 @@ export default function Footer() {
             <div className="flex items-center gap-[0.8vw] mt-[0.5vh]">
               {[
                 { icon: "ph:facebook-logo-bold", href: "https://facebook.com", label: "Facebook" },
-                { icon: "ph:twitter-logo-bold", href: "https://twitter.com", label: "Twitter" },
+                { icon: "ph:x-logo-bold", href: "https://x.com", label: "Twitter" },
                 { icon: "ph:instagram-logo-bold", href: "https://instagram.com", label: "Instagram" },
                 { icon: "ph:linkedin-logo-bold", href: "https://linkedin.com", label: "LinkedIn" },
               ].map((social, idx) => (
@@ -230,13 +235,17 @@ export default function Footer() {
             <ul className="flex flex-col items-start gap-[1.3vh] text-[clamp(13px,0.95vw,16px)] font-medium text-pink-100/75">
               {[
                 { name: "Home", href: "/" },
-                { name: "Dubai Packages", href: "/packages" },
+                { name: "Explore Packages", href: "/explore" },
+                { name: "Plan Your Trip", href: "/plan-trip" },
                 { name: "About Us", href: "/about" },
-                { name: "Travel Blog", href: "/blog" },
                 { name: "Contact Us", href: "/contact" },
               ].map((link, idx) => (
                 <li key={idx}>
-                  <Link href={link.href} className="group flex items-center gap-2 hover:text-white transition-all duration-300">
+                  <Link
+                    href={link.href}
+                    onClick={() => scrollToPageTop(true)}
+                    className="group flex items-center gap-2 hover:text-white transition-all duration-300"
+                  >
                     <span className="w-1.5 h-1.5 rounded-full bg-[#FF2A75] opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-[0_0_8px_#FF2A75] group-hover:scale-125" />
                     <span className="group-hover:translate-x-1.5 group-hover:text-[#FF2A75] group-hover:drop-shadow-[0_0_10px_rgba(255,42,117,0.8)] transition-all duration-300">
                       {link.name}
@@ -264,14 +273,19 @@ export default function Footer() {
 
             <ul className="flex flex-col items-start gap-[1.3vh] text-[clamp(13px,0.95vw,16px)] font-medium text-pink-100/75">
               {[
-                { name: "Desert Safari", href: "/tours/desert-safari" },
-                { name: "Burj Khalifa Tour", href: "/tours/burj-khalifa" },
-                { name: "Dubai Marina Cruise", href: "/tours/marina-cruise" },
-                { name: "Abu Dhabi Day Trip", href: "/tours/abu-dhabi" },
-                { name: "Global Village Visit", href: "/tours/global-village" },
+                { name: "Dubai Luxury Escape", href: "/explore/dubai-luxury" },
+                { name: "Desert Safari & Marina", href: "/explore/dubai-luxury" },
+                { name: "50 Things To Do in Dubai", href: "/explore/50-things-to-do-in-dubai" },
+                { name: "99 Things To Do in Dubai", href: "/explore/99-things-to-do-in-dubai" },
+                { name: "Maldives Island Paradise", href: "/explore/maldives-paradise" },
+                { name: "Switzerland Alpine Tour", href: "/explore/switzerland-alpine" },
               ].map((tour, idx) => (
                 <li key={idx}>
-                  <Link href={tour.href} className="group flex items-center gap-2 hover:text-white transition-all duration-300">
+                  <Link
+                    href={tour.href}
+                    onClick={() => scrollToPageTop(true)}
+                    className="group flex items-center gap-2 hover:text-white transition-all duration-300"
+                  >
                     <span className="w-1.5 h-1.5 rounded-full bg-[#FF2A75] opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-[0_0_8px_#FF2A75] group-hover:scale-125" />
                     <span className="group-hover:translate-x-1.5 group-hover:text-[#FF2A75] group-hover:drop-shadow-[0_0_10px_rgba(255,42,117,0.8)] transition-all duration-300">
                       {tour.name}
@@ -298,15 +312,21 @@ export default function Footer() {
             <div className="w-[2.8vw] min-w-[32px] h-[3px] rounded-full bg-gradient-to-r from-[#FF2A75] to-[#FF80AB] mb-[2.2vh] shadow-[0_0_12px_rgba(255,42,117,0.6)]" />
 
             <div className="flex flex-col items-start gap-[1.8vh] text-[clamp(13px,0.95vw,15px)] font-medium text-pink-100/85">
-              {/* Address */}
-              <div className="flex items-start gap-[0.8vw] group">
+              {/* Address with Google Maps link */}
+              <a
+                href="https://maps.google.com/?q=47/5B+VOC+NAGAR+NAGARAM+ROAD+PATTUKOTTAI+THANJAVUR+614609"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="View on Google Maps"
+                className="flex items-start gap-[0.8vw] group hover:text-white transition-all cursor-pointer"
+              >
                 <div className="w-8 h-8 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:border-[#FF2A75] group-hover:bg-[#FF2A75]/20 transition-all duration-300">
                   <Icon icon="ph:map-pin-fill" className="text-[#FF2A75] w-4 h-4 drop-shadow-[0_0_6px_rgba(255,42,117,0.8)]" />
                 </div>
-                <span className="leading-relaxed">
+                <span className="leading-relaxed group-hover:text-[#FF2A75] transition-all">
                   47/5B , VOC NAGAR, NAGARAM ROAD, PATTUKOTTAI, THANJAVOUR-614609, TN, INDIA.
                 </span>
-              </div>
+              </a>
 
               {/* Phone */}
               <a href="tel:+919384589936" className="flex items-center gap-[0.8vw] group hover:text-white transition-all font-semibold">
@@ -339,11 +359,29 @@ export default function Footer() {
         >
           <p>&copy; {new Date().getFullYear()} The Wow World. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="hover:text-[#FF2A75] hover:drop-shadow-[0_0_8px_rgba(255,42,117,0.8)] transition-all">Privacy Policy</Link>
+            <Link
+              href="/about"
+              onClick={() => scrollToPageTop(true)}
+              className="hover:text-[#FF2A75] hover:drop-shadow-[0_0_8px_rgba(255,42,117,0.8)] transition-all"
+            >
+              About Us
+            </Link>
             <span className="text-pink-500/30">&bull;</span>
-            <Link href="/terms" className="hover:text-[#FF2A75] hover:drop-shadow-[0_0_8px_rgba(255,42,117,0.8)] transition-all">Terms of Service</Link>
+            <Link
+              href="/plan-trip"
+              onClick={() => scrollToPageTop(true)}
+              className="hover:text-[#FF2A75] hover:drop-shadow-[0_0_8px_rgba(255,42,117,0.8)] transition-all"
+            >
+              Plan Trip
+            </Link>
             <span className="text-pink-500/30">&bull;</span>
-            <Link href="/cookies" className="hover:text-[#FF2A75] hover:drop-shadow-[0_0_8px_rgba(255,42,117,0.8)] transition-all">Cookie Settings</Link>
+            <Link
+              href="/contact"
+              onClick={() => scrollToPageTop(true)}
+              className="hover:text-[#FF2A75] hover:drop-shadow-[0_0_8px_rgba(255,42,117,0.8)] transition-all"
+            >
+              Contact &amp; Support
+            </Link>
           </div>
         </div>
 

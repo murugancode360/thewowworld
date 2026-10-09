@@ -1918,7 +1918,7 @@ export default function PlanTripPage() {
                 role="region"
                 data-lenis-prevent
                 aria-label={`${activeTab === "search" ? "Search" : activeTab === "itinerary" ? "Itinerary" : "Peak Tourism"} planning panel`}
-                className="w-[380px] sm:w-[420px] max-w-[calc(100vw-32px)] bg-white/95 backdrop-blur-xl border border-zinc-200/90 rounded-2xl shadow-xl p-4 transition-all max-h-[calc(100vh-130px)] flex flex-col relative overflow-hidden overscroll-contain animate-in fade-in slide-in-from-top-2 duration-200 modal-scroll-area"
+                className="w-[380px] sm:w-[420px] max-w-[calc(100vw-32px)] bg-white/95 backdrop-blur-xl border border-zinc-200/90 rounded-2xl shadow-xl p-4 transition-all max-h-[calc(100vh-130px)] flex flex-col relative overflow-visible overscroll-contain animate-in fade-in slide-in-from-top-2 duration-200"
                 style={{ touchAction: "pan-y", overscrollBehavior: "contain" }}
               >
                 {activeTab === "search" && (
@@ -1998,21 +1998,25 @@ export default function PlanTripPage() {
                           id="search-results-list"
                           role="listbox"
                           aria-label="Destination suggestions"
-                          className="absolute left-0 right-0 top-full mt-1.5 z-[999] bg-white/98 backdrop-blur-xl border border-zinc-200/90 rounded-2xl p-1.5 shadow-2xl overflow-hidden animate-in fade-in duration-150"
+                          className="absolute left-0 right-0 top-full mt-2 z-[999] bg-white/98 backdrop-blur-xl border border-zinc-200/90 rounded-2xl p-2 shadow-2xl overflow-hidden animate-in fade-in duration-150"
                         >
-                          <div className="space-y-0.5 max-h-60 overflow-y-auto pr-1 overscroll-contain [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-zinc-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+                          <div className="space-y-1 max-h-80 overflow-y-auto pr-1 overscroll-contain modal-scroll-area">
                             {searchResults.map((res) => (
                               <button
                                 key={res.place_id}
                                 role="option"
                                 aria-selected="false"
                                 onClick={() => handleSelectSearchResult(res)}
-                                className="w-full text-left p-2.5 hover:bg-zinc-100 focus:bg-pink-50 rounded-xl text-xs transition-all flex items-center gap-2.5 cursor-pointer group focus:outline-none"
+                                className="w-full text-left p-2.5 hover:bg-pink-50/70 focus:bg-pink-50 rounded-xl text-xs transition-all flex items-start gap-2.5 cursor-pointer group focus:outline-none border border-transparent hover:border-pink-100"
                               >
-                                <Icon icon="material-symbols:location-on" className="w-4 h-4 text-[#FC0780] shrink-0 group-hover:scale-110 transition-transform" />
-                                <div className="overflow-hidden">
-                                  <p className="font-semibold text-zinc-800 truncate whitespace-nowrap group-hover:text-[#FC0780]">{res.display_name}</p>
-                                  <span className="text-[10px] text-zinc-400 uppercase whitespace-nowrap">{res.type}</span>
+                                <Icon icon="material-symbols:location-on" className="w-4 h-4 text-[#FC0780] shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
+                                <div className="flex-1 min-w-0">
+                                  <p className="font-semibold text-zinc-800 text-xs leading-snug group-hover:text-[#FC0780] line-clamp-2 transition-colors" title={res.display_name}>
+                                    {res.display_name}
+                                  </p>
+                                  <span className="text-[10px] text-zinc-400 uppercase tracking-wider font-medium">
+                                    {res.type}
+                                  </span>
                                 </div>
                               </button>
                             ))}

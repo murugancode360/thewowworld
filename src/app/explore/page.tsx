@@ -3,7 +3,136 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
+import { scrollToPageTop } from "@/components/SmoothScroll";
+
+interface SearchSuggestion {
+  id: string;
+  name: string;
+  country: string;
+  type: "package" | "guide" | "destination";
+  category: string;
+  url: string;
+  image: string;
+  price?: string;
+  rating?: string;
+  badge?: string;
+}
+
+const exploreSuggestions: SearchSuggestion[] = [
+  {
+    id: "dubai-luxury",
+    name: "Dubai",
+    country: "United Arab Emirates",
+    type: "package",
+    category: "Luxury City Escape (5D/4N)",
+    url: "/explore/dubai-luxury",
+    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=300&q=80",
+    price: "₹49,999",
+    rating: "4.8",
+    badge: "Best Seller",
+  },
+  {
+    id: "maldives-paradise",
+    name: "Maldives",
+    country: "South Asia",
+    type: "package",
+    category: "Overwater Villas (4D/3N)",
+    url: "/explore/maldives-paradise",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=300&q=80",
+    price: "₹39,999",
+    rating: "4.7",
+    badge: "Top Rated",
+  },
+  {
+    id: "switzerland-alpine",
+    name: "Switzerland",
+    country: "Europe",
+    type: "package",
+    category: "Alpine Adventure (7D/6N)",
+    url: "/explore/switzerland-alpine",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=300&q=80",
+    price: "₹1,29,999",
+    rating: "4.9",
+    badge: "Trending",
+  },
+  {
+    id: "bali-explorer",
+    name: "Bali",
+    country: "Indonesia",
+    type: "package",
+    category: "Tropical Paradise (6D/5N)",
+    url: "/explore/bali-explorer",
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=300&q=80",
+    price: "₹59,999",
+    rating: "4.6",
+    badge: "Popular",
+  },
+  {
+    id: "dubai-99",
+    name: "99 Things to Do in Dubai",
+    country: "Dubai, UAE",
+    type: "guide",
+    category: "Master Bucket List Guide",
+    url: "/explore/99-things-to-do-in-dubai",
+    image: "/Home/destinations/dubai_burj_khalifa.webp",
+    rating: "4.9",
+    badge: "Ultimate Guide",
+  },
+  {
+    id: "dubai-amazing",
+    name: "Amazing Things to Do in Dubai",
+    country: "Dubai, UAE",
+    type: "guide",
+    category: "VIP & Thrill Adventures",
+    url: "/explore/amazing-things-to-do-in-dubai",
+    image: "/Home/destinations/dubai_adventures.webp",
+    rating: "4.9",
+    badge: "VIP Guide",
+  },
+  {
+    id: "dubai-50",
+    name: "50 Things to Do in Dubai",
+    country: "Dubai, UAE",
+    type: "guide",
+    category: "Essential Picks & Highlights",
+    url: "/explore/50-things-to-do-in-dubai",
+    image: "/Home/destinations/dubai_miracle_garden.webp",
+    rating: "4.8",
+    badge: "Essential",
+  },
+  {
+    id: "paris",
+    name: "Paris",
+    country: "France",
+    type: "destination",
+    category: "City of Light & Romance",
+    url: "/explore#packages",
+    image: "/Home/hero/paris.webp",
+    badge: "Europe",
+  },
+  {
+    id: "kyoto",
+    name: "Kyoto",
+    country: "Japan",
+    type: "destination",
+    category: "Historic Shrines & Culture",
+    url: "/explore#packages",
+    image: "/Home/hero/japan.webp",
+    badge: "Asia",
+  },
+  {
+    id: "santorini",
+    name: "Santorini",
+    country: "Greece",
+    type: "destination",
+    category: "Aegean Sea & Sunsets",
+    url: "/explore#packages",
+    image: "/Home/destinations/santorini.webp",
+    badge: "Island",
+  },
+];
 
 // Reusable scroll-reveal hook:
 // - Triggers when scrolling DOWN into a section
@@ -63,7 +192,11 @@ function useScrollReveal(threshold = 0.82) {
 }
 
 export default function ExplorePage() {
+  const router = useRouter();
   const [selectedStyle, setSelectedStyle] = useState<string>("All");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
 
   // Hero section mounts on initial page visit
   const [heroVisible, setHeroVisible] = useState(false);
@@ -71,6 +204,44 @@ export default function ExplorePage() {
     const timer = setTimeout(() => setHeroVisible(true), 60);
     return () => clearTimeout(timer);
   }, []);
+
+  // Close search suggestions on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setIsSearchActive(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const filteredSuggestions = searchQuery.trim() === ""
+    ? exploreSuggestions.slice(0, 5)
+    : exploreSuggestions.filter((item) => {
+        const q = searchQuery.toLowerCase().trim();
+        return (
+          item.name.toLowerCase().includes(q) ||
+          item.country.toLowerCase().includes(q) ||
+          item.category.toLowerCase().includes(q)
+        );
+      });
+
+  const handleSelectSuggestion = (url: string) => {
+    setIsSearchActive(false);
+    scrollToPageTop(true);
+    router.push(url);
+  };
+
+  const handleSearchSubmit = () => {
+    if (filteredSuggestions.length > 0) {
+      handleSelectSuggestion(filteredSuggestions[0].url);
+    } else if (searchQuery.trim()) {
+      router.push(`/plan-trip?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      handleSelectSuggestion("/explore#packages");
+    }
+  };
 
   // Scroll detectors for individual section contents
   const secGuides = useScrollReveal(0.85);
@@ -328,31 +499,160 @@ export default function ExplorePage() {
               Find your next adventure with ease.
             </p>
 
-            {/* Line 4: SEARCH DESTINATION BAR */}
+            {/* Line 4: SEARCH DESTINATION BAR & AUTOCOMPLETE */}
             <div
+              ref={searchContainerRef}
               style={{
                 opacity: heroVisible ? 1 : 0,
                 transform: heroVisible ? "translate3d(0, 0, 0)" : "translate3d(-30px, 0, 0)",
                 transition: "opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.8s, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.8s",
               }}
-              className="w-full max-w-[28vw] min-h-[52px] lg:min-h-[3.6vw] bg-white/95 backdrop-blur-md rounded-full p-[0.35vw] pl-[1.3vw] pr-[0.35vw] shadow-[0_0.8vw_2.5vw_rgba(255,45,117,0.12)] border border-pink-100 flex items-center justify-between gap-[0.5vw] z-20 transition-all focus-within:ring-2 focus-within:ring-[#FF2D75]/25 focus-within:border-[#FF2D75]"
+              className="relative w-full max-w-[28vw] min-w-[320px] z-40 mb-[1vh]"
             >
-              <div className="flex items-center gap-[0.6vw] flex-1">
-                <Icon icon="lucide:map-pin" className="w-4 h-4 lg:w-[1.25vw] lg:h-[1.25vw] text-[#FF2D75] shrink-0" />
-                <input
-                  type="text"
-                  placeholder="Enter destination or city..."
-                  className="w-full text-xs lg:text-[0.9vw] font-medium text-slate-800 placeholder-slate-400 bg-transparent focus:outline-none py-[0.4vh]"
-                />
+              {/* Search Pill Input Bar */}
+              <div
+                className={`w-full min-h-[52px] lg:min-h-[3.6vw] bg-white/95 backdrop-blur-md rounded-full p-[0.35vw] pl-[1.3vw] pr-[0.35vw] shadow-[0_0.8vw_2.5vw_rgba(255,45,117,0.12)] border border-pink-100 flex items-center justify-between gap-[0.5vw] transition-all ${
+                  isSearchActive ? "ring-2 ring-[#FF2D75]/35 border-[#FF2D75] shadow-[0_0.8vw_3vw_rgba(255,45,117,0.22)]" : ""
+                }`}
+              >
+                <div className="flex items-center gap-[0.6vw] flex-1">
+                  <Icon icon="lucide:map-pin" className="w-4 h-4 lg:w-[1.25vw] lg:h-[1.25vw] text-[#FF2D75] shrink-0" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onFocus={() => setIsSearchActive(true)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") setIsSearchActive(false);
+                      if (e.key === "Enter") handleSearchSubmit();
+                    }}
+                    placeholder="Enter destination or city..."
+                    className="w-full text-xs lg:text-[0.9vw] font-medium text-slate-800 placeholder-slate-400 bg-transparent focus:outline-none py-[0.4vh]"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery("")}
+                      className="text-slate-400 hover:text-slate-600 p-1 rounded-full cursor-pointer transition-colors"
+                      aria-label="Clear search"
+                    >
+                      <Icon icon="lucide:x" className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleSearchSubmit}
+                  className="px-5 lg:px-[1.8vw] py-2.5 lg:py-[1.05vh] bg-gradient-to-r from-[#FF2D75] to-[#FF5E97] hover:from-[#e62066] text-white font-bold text-xs lg:text-[0.88vw] rounded-full shadow-md hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-[0.3vw] cursor-pointer shrink-0"
+                >
+                  <Icon icon="lucide:search" className="w-3.5 h-3.5 lg:w-[0.95vw] lg:h-[0.95vw]" />
+                  <span>Search</span>
+                </button>
               </div>
 
-              <button
-                type="button"
-                className="px-5 lg:px-[1.8vw] py-2.5 lg:py-[1.05vh] bg-gradient-to-r from-[#FF2D75] to-[#FF5E97] hover:from-[#e62066] text-white font-bold text-xs lg:text-[0.88vw] rounded-full shadow-md hover:scale-105 transition-all flex items-center justify-center gap-[0.3vw] cursor-pointer shrink-0"
-              >
-                <Icon icon="lucide:search" className="w-3.5 h-3.5 lg:w-[0.95vw] lg:h-[0.95vw]" />
-                <span>Search</span>
-              </button>
+              {/* Autocomplete Dropdown Panel */}
+              {isSearchActive && (
+                <div className="absolute top-[calc(100%+0.6vh)] left-0 right-0 z-50 bg-white/98 backdrop-blur-2xl rounded-2xl lg:rounded-[1.4vw] border border-pink-100 shadow-[0_1.5vw_4vw_rgba(255,45,117,0.18)] p-2 sm:p-2.5 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                  {/* Dropdown Header */}
+                  <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-pink-50 mb-1">
+                    <span className="text-[10px] lg:text-[0.68vw] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                      <Icon icon="lucide:sparkles" className="w-3 h-3 text-[#FF2D75]" />
+                      <span>{searchQuery.trim() ? `Matching Destinations (${filteredSuggestions.length})` : "Popular & Trending Destinations"}</span>
+                    </span>
+                    <span className="text-[9px] lg:text-[0.62vw] text-slate-400 font-medium">Click to open</span>
+                  </div>
+
+                  {/* Suggestions List */}
+                  <div className="space-y-1 max-h-[290px] overflow-y-auto overscroll-contain pr-0.5 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-pink-200 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+                    {filteredSuggestions.length > 0 ? (
+                      filteredSuggestions.map((item) => (
+                        <div
+                          key={item.id}
+                          onClick={() => handleSelectSuggestion(item.url)}
+                          className="flex items-center justify-between p-2 rounded-xl hover:bg-gradient-to-r hover:from-pink-50/90 hover:to-white border border-transparent hover:border-pink-100/80 transition-all cursor-pointer group"
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            {/* Thumbnail */}
+                            <div className="relative w-10 h-10 lg:w-[2.5vw] lg:h-[2.5vw] rounded-xl overflow-hidden shrink-0 border border-pink-100 shadow-2xs">
+                              <Image
+                                src={item.image}
+                                alt={item.name}
+                                fill
+                                className="object-cover group-hover:scale-110 transition-transform duration-300"
+                                unoptimized
+                              />
+                            </div>
+
+                            {/* Details */}
+                            <div className="flex flex-col min-w-0">
+                              <div className="flex items-center gap-1.5">
+                                <span className="font-extrabold text-xs lg:text-[0.82vw] text-slate-800 group-hover:text-[#FF2D75] transition-colors truncate">
+                                  {item.name}
+                                </span>
+                                {item.badge && (
+                                  <span className="text-[9px] lg:text-[0.62vw] font-bold px-1.5 py-0.2 bg-pink-100 text-[#FF2D75] rounded-full shrink-0">
+                                    {item.badge}
+                                  </span>
+                                )}
+                              </div>
+                              <span className="text-[10px] lg:text-[0.7vw] text-slate-500 font-medium truncate flex items-center gap-1">
+                                <Icon icon="lucide:map-pin" className="w-2.5 h-2.5 text-pink-400 shrink-0" />
+                                <span>{item.category} • {item.country}</span>
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Right Price / Rating / Arrow */}
+                          <div className="flex items-center gap-2 shrink-0 pl-2">
+                            {item.price && (
+                              <span className="text-[10px] lg:text-[0.72vw] font-black text-[#FF2D75]">
+                                {item.price}
+                              </span>
+                            )}
+                            {item.rating && (
+                              <span className="hidden sm:flex items-center gap-0.5 text-[10px] lg:text-[0.68vw] font-bold text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded-full">
+                                <Icon icon="lucide:star" className="w-2.5 h-2.5 fill-amber-400" />
+                                <span>{item.rating}</span>
+                              </span>
+                            )}
+                            <div className="w-6 h-6 rounded-full bg-slate-100 group-hover:bg-[#FF2D75] text-slate-400 group-hover:text-white flex items-center justify-center transition-all duration-200">
+                              <Icon icon="lucide:arrow-right" className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="p-4 text-center">
+                        <p className="text-xs text-slate-600 font-medium mb-2">
+                          No exact matches for <strong className="text-slate-900">&quot;{searchQuery}&quot;</strong>
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => handleSelectSuggestion(`/plan-trip?search=${encodeURIComponent(searchQuery)}`)}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-pink-50 border border-pink-200 text-[#FF2D75] text-xs font-bold hover:bg-pink-100 transition-colors cursor-pointer"
+                        >
+                          <Icon icon="lucide:map" className="w-3.5 h-3.5" />
+                          <span>Search on Custom Trip Map Planner</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Bottom Footer Note */}
+                  <div className="mt-1 pt-1.5 border-t border-pink-50 flex items-center justify-between px-2 text-[10px] lg:text-[0.68vw]">
+                    <span className="text-slate-400 font-medium">Want custom days or stops?</span>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectSuggestion("/plan-trip")}
+                      className="font-bold text-[#FF2D75] hover:underline flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>Interactive Trip Planner</span>
+                      <Icon icon="lucide:arrow-right" className="w-2.5 h-2.5" />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Line 5: BOTTOM STATS & HIGHLIGHTS ROW */}
@@ -682,7 +982,11 @@ export default function ExplorePage() {
                 </div>
               </div>
 
-              <Link href="#" className="hidden sm:flex items-center gap-[0.4vw] text-xs lg:text-[0.8vw] font-bold text-[#FF2D75] hover:underline">
+              <Link
+                href="/explore/dubai-luxury"
+                onClick={() => scrollToPageTop(true)}
+                className="hidden sm:flex items-center gap-[0.4vw] text-xs lg:text-[0.8vw] font-bold text-[#FF2D75] hover:underline"
+              >
                 <span>View All Packages</span>
                 <Icon icon="lucide:arrow-right" className="w-4 h-4 lg:w-[1vw] lg:h-[1vw]" />
               </Link>
@@ -872,7 +1176,11 @@ export default function ExplorePage() {
                 </div>
               </div>
 
-              <Link href="#" className="hidden sm:flex items-center gap-[0.4vw] text-xs lg:text-[0.8vw] font-bold text-[#FF2D75] hover:underline">
+              <Link
+                href="/explore/99-things-to-do-in-dubai"
+                onClick={() => scrollToPageTop(true)}
+                className="hidden sm:flex items-center gap-[0.4vw] text-xs lg:text-[0.8vw] font-bold text-[#FF2D75] hover:underline"
+              >
                 <span>View All Trending</span>
                 <Icon icon="lucide:arrow-right" className="w-4 h-4 lg:w-[1vw] lg:h-[1vw]" />
               </Link>
@@ -1119,13 +1427,14 @@ export default function ExplorePage() {
                     <label className="block text-[11px] lg:text-[0.72vw] font-bold text-transparent mb-[0.4vh] select-none">
                       Action
                     </label>
-                    <button
-                      type="button"
+                    <Link
+                      href="/plan-trip"
+                      onClick={() => scrollToPageTop(true)}
                       className="w-full py-2 lg:py-[0.7vh] px-4 bg-gradient-to-r from-[#FF2D75] to-[#FF5E97] hover:from-[#e62066] text-white text-xs lg:text-[0.78vw] font-bold rounded-xl lg:rounded-[0.8vw] shadow-md hover:scale-105 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <Icon icon="lucide:sparkles" className="w-3.5 h-3.5 lg:w-[0.9vw] lg:h-[0.9vw]" />
                       <span>Create Plan</span>
-                    </button>
+                    </Link>
                   </div>
 
                 </div>

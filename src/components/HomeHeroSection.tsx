@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { scrollToPageTop } from "@/components/SmoothScroll";
 
 export default function HomeHeroSection() {
   // Typing state for Left Side Headlines & Description
@@ -291,20 +293,29 @@ export default function HomeHeroSection() {
                 showButton ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95"
               }`}
             >
-              <button
-                type="button"
-                className="mt-[3.5vh] relative overflow-hidden px-[1.6vw] py-[0.65vw] bg-white/15 hover:bg-white/25 backdrop-blur-md text-white font-extrabold text-[1vw] rounded-lg border border-white/40 hover:border-white/70 shadow-[0_8px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] flex items-center gap-[0.6vw] transition-all duration-300 hover:scale-105 group cursor-pointer z-20"
+              <Link
+                href="/explore"
+                onClick={() => scrollToPageTop(true)}
+                className="mt-[3.5vh] relative overflow-hidden px-[1.6vw] py-[0.65vw] bg-white/15 hover:bg-white/25 backdrop-blur-md text-white font-extrabold text-[1vw] rounded-lg border border-white/40 hover:border-white/70 shadow-[0_8px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_0_25px_rgba(255,255,255,0.4)] flex items-center gap-[0.6vw] transition-all duration-300 hover:scale-105 group cursor-pointer z-20 inline-flex"
               >
                 {/* Infinite Silver Metallic Shimmer Wave Sweep (Left to Right) */}
                 <span className="absolute top-0 bottom-0 left-0 w-[40%] bg-gradient-to-r from-transparent via-white/50 to-transparent animate-silver-shine pointer-events-none" />
 
                 <span className="relative z-10 tracking-wide drop-shadow-sm">Explore Packages</span>
                 <Icon icon="lucide:arrow-right" className="relative z-10 w-[1.2vw] h-[1.2vw] text-white" />
-              </button>
+              </Link>
             </div>
 
             {/* Scroll to explore indicator */}
             <div
+              onClick={() => {
+                const target = document.getElementById("popular-destinations-section") || document.querySelector("section:nth-of-type(2)");
+                if (target) {
+                  target.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
+                }
+              }}
               className={`mt-[6vh] flex items-center gap-[0.7vw] group cursor-pointer z-20 transition-all duration-700 ease-out ${
                 showScrollIndicator ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
               }`}
@@ -383,73 +394,79 @@ export default function HomeHeroSection() {
               {/* Right Side 3 Polaroid Cards Stack with Spring Elastic Pop Entrance */}
               <div className="relative w-full h-full flex flex-col justify-between py-[12vh] px-[3vw] z-20">
                 {/* Card 1: Maldives */}
-                <div
-                  className={`w-[7vw] bg-white p-[0.3vw] pb-[0.45vw] rounded-[0.5vw] shadow-[0_12px_28px_rgba(0,0,0,0.4)] z-20 self-end -mr-[2.5vw] transition-all duration-800 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                <Link
+                  href="/explore/maldives-paradise"
+                  onClick={() => scrollToPageTop(true)}
+                  className={`w-[7vw] bg-white p-[0.3vw] pb-[0.45vw] rounded-[0.5vw] shadow-[0_12px_28px_rgba(0,0,0,0.4)] z-20 self-end -mr-[2.5vw] transition-all duration-800 ease-[cubic-bezier(0.34,1.56,0.64,1)] group/card ${
                     showCard1
                       ? "opacity-100 scale-100 rotate-[-5deg] hover:rotate-[0deg] hover:scale-110 cursor-pointer animate-polaroid-1"
                       : "opacity-0 scale-25 -translate-y-16 -rotate-25 pointer-events-none"
                   }`}
                 >
                   <div className="relative w-full h-[5.8vw] rounded-[0.35vw] overflow-hidden">
-                    <Image src="/Home/hero/maldives.webp" alt="Maldives" fill className="object-cover" unoptimized />
+                    <Image src="/Home/hero/maldives.webp" alt="Maldives" fill className="object-cover group-hover/card:scale-110 transition-transform duration-500" unoptimized />
                   </div>
                   <div className="flex items-center justify-between mt-[0.3vw] px-[0.15vw]">
                     <div className="flex items-center gap-[0.15vw]">
                       <Icon icon="ph:map-pin-fill" className="w-[0.55vw] h-[0.55vw] text-[#FF2A75]" />
-                      <span className="text-[0.52vw] font-extrabold text-gray-800 tracking-tight">Maldives</span>
+                      <span className="text-[0.52vw] font-extrabold text-gray-800 tracking-tight group-hover/card:text-[#FF2A75] transition-colors">Maldives</span>
                     </div>
                     <Icon
-                      icon="ph:heart-bold"
-                      className="w-[0.55vw] h-[0.55vw] text-gray-400 hover:text-[#FF2A75] cursor-pointer transition-colors"
+                      icon="ph:arrow-right-bold"
+                      className="w-[0.55vw] h-[0.55vw] text-gray-400 group-hover/card:text-[#FF2A75] transition-colors"
                     />
                   </div>
-                </div>
+                </Link>
 
                 {/* Card 2: Paris */}
-                <div
-                  className={`w-[7vw] bg-white p-[0.3vw] pb-[0.45vw] mt-[3vh] rounded-[0.5vw] shadow-[0_12px_28px_rgba(0,0,0,0.4)] z-20 self-center ml-[10vw] transition-all duration-800 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                <Link
+                  href="/explore"
+                  onClick={() => scrollToPageTop(true)}
+                  className={`w-[7vw] bg-white p-[0.3vw] pb-[0.45vw] mt-[3vh] rounded-[0.5vw] shadow-[0_12px_28px_rgba(0,0,0,0.4)] z-20 self-center ml-[10vw] transition-all duration-800 ease-[cubic-bezier(0.34,1.56,0.64,1)] group/card ${
                     showCard2
                       ? "opacity-100 scale-100 -rotate-[2deg] hover:rotate-[0deg] hover:scale-110 cursor-pointer animate-polaroid-2"
                       : "opacity-0 scale-25 -translate-y-16 rotate-20 pointer-events-none"
                   }`}
                 >
                   <div className="relative w-full h-[6.1vw] rounded-[0.35vw] overflow-hidden">
-                    <Image src="/Home/hero/paris.webp" alt="Paris" fill className="object-cover" unoptimized />
+                    <Image src="/Home/hero/paris.webp" alt="Paris" fill className="object-cover group-hover/card:scale-110 transition-transform duration-500" unoptimized />
                   </div>
                   <div className="flex items-center justify-between mt-[0.3vw] px-[0.15vw]">
                     <div className="flex items-center gap-[0.15vw]">
                       <Icon icon="ph:map-pin-fill" className="w-[0.55vw] h-[0.55vw] text-[#FF2A75]" />
-                      <span className="text-[0.52vw] font-extrabold text-gray-800 tracking-tight">Paris</span>
+                      <span className="text-[0.52vw] font-extrabold text-gray-800 tracking-tight group-hover/card:text-[#FF2A75] transition-colors">Paris</span>
                     </div>
                     <Icon
-                      icon="ph:heart-bold"
-                      className="w-[0.55vw] h-[0.55vw] text-gray-400 hover:text-[#FF2A75] cursor-pointer transition-colors"
+                      icon="ph:arrow-right-bold"
+                      className="w-[0.55vw] h-[0.55vw] text-gray-400 group-hover/card:text-[#FF2A75] transition-colors"
                     />
                   </div>
-                </div>
+                </Link>
 
                 {/* Card 3: Japan */}
-                <div
-                  className={`w-[7vw] bg-white p-[0.3vw] pb-[0.45vw] mt-[2vh] rounded-[0.5vw] shadow-[0_12px_28px_rgba(0,0,0,0.4)] z-20 self-end -mr-[2vw] transition-all duration-800 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                <Link
+                  href="/explore"
+                  onClick={() => scrollToPageTop(true)}
+                  className={`w-[7vw] bg-white p-[0.3vw] pb-[0.45vw] mt-[2vh] rounded-[0.5vw] shadow-[0_12px_28px_rgba(0,0,0,0.4)] z-20 self-end -mr-[2vw] transition-all duration-800 ease-[cubic-bezier(0.34,1.56,0.64,1)] group/card ${
                     showCard3
                       ? "opacity-100 scale-100 rotate-[4deg] hover:rotate-[0deg] hover:scale-110 cursor-pointer animate-polaroid-3"
                       : "opacity-0 scale-25 -translate-y-16 -rotate-20 pointer-events-none"
                   }`}
                 >
                   <div className="relative w-full h-[5.8vw] rounded-[0.35vw] overflow-hidden">
-                    <Image src="/Home/hero/japan.webp" alt="Japan" fill className="object-cover" unoptimized />
+                    <Image src="/Home/hero/japan.webp" alt="Japan" fill className="object-cover group-hover/card:scale-110 transition-transform duration-500" unoptimized />
                   </div>
                   <div className="flex items-center justify-between mt-[0.3vw] px-[0.15vw]">
                     <div className="flex items-center gap-[0.15vw]">
                       <Icon icon="ph:map-pin-fill" className="w-[0.55vw] h-[0.55vw] text-[#FF2A75]" />
-                      <span className="text-[0.52vw] font-extrabold text-gray-800 tracking-tight">Japan</span>
+                      <span className="text-[0.52vw] font-extrabold text-gray-800 tracking-tight group-hover/card:text-[#FF2A75] transition-colors">Japan</span>
                     </div>
                     <Icon
-                      icon="ph:heart-bold"
-                      className="w-[0.55vw] h-[0.55vw] text-gray-400 hover:text-[#FF2A75] cursor-pointer transition-colors"
+                      icon="ph:arrow-right-bold"
+                      className="w-[0.55vw] h-[0.55vw] text-gray-400 group-hover/card:text-[#FF2A75] transition-colors"
                     />
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
           </div>

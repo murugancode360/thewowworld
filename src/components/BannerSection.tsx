@@ -2,6 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { scrollToPageTop } from "@/components/SmoothScroll";
 
 export default function BannerSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -194,7 +196,9 @@ export default function BannerSection() {
       {/* Center Container with max-w-[65vw] strictly for the Card Banner */}
       <div className="relative w-full max-w-[65vw] flex items-center justify-center z-10 px-[1vw]">
         {/* Main Banner Image Container - Smooth Spring Entrance from Right Side */}
-        <div
+        <Link
+          href="/explore"
+          onClick={() => scrollToPageTop(true)}
           style={{
             transform: isVisible
               ? "translate3d(0, 0, 0) scale(1)"
@@ -204,7 +208,7 @@ export default function BannerSection() {
             transition:
               "transform 1.05s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.85s ease-out, filter 0.75s ease-out",
           }}
-          className="relative z-10 w-full overflow-hidden rounded-[2vw] shadow-[0_1vw_3vw_rgba(255,42,117,0.2)] group transition-transform duration-500 hover:scale-[1.01]"
+          className="relative z-10 w-full overflow-hidden rounded-[2vw] shadow-[0_1vw_3vw_rgba(255,42,117,0.2)] group transition-transform duration-500 hover:scale-[1.01] block cursor-pointer"
         >
           <Image
             src="/Home/banner.webp"
@@ -215,7 +219,7 @@ export default function BannerSection() {
             priority={false}
             unoptimized
           />
-        </div>
+        </Link>
       </div>
     </section>
   );

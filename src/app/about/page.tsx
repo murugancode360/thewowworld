@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { scrollToPageTop } from "@/components/SmoothScroll";
 
 // Reusable scroll-reveal hook:
 // - Triggers when scrolling DOWN into a section
@@ -269,6 +270,7 @@ export default function AboutPage() {
                 >
                   <Link
                     href="/explore"
+                    onClick={() => scrollToPageTop(true)}
                     className="px-[2.2vw] py-[1.2vh] bg-[#FF2D75] hover:bg-[#E01E63] text-white font-bold text-sm lg:text-[0.95vw] rounded-full shadow-[0_8px_25px_rgba(255,45,117,0.35)] hover:shadow-[0_12px_30px_rgba(255,45,117,0.45)] transition-all duration-300 hover:scale-105 inline-flex items-center gap-[0.6vw] cursor-pointer group"
                   >
                     <span>Start Your Journey</span>
@@ -882,6 +884,7 @@ export default function AboutPage() {
                   >
                     <Link
                       href="/explore"
+                      onClick={() => scrollToPageTop(true)}
                       className="px-[1.8vw] py-[0.6vw] rounded-full border-2 border-[#FF2D75] text-[#FF2D75] hover:bg-[#FF2D75] hover:text-white font-extrabold text-[0.9vw] transition-all duration-300 flex items-center gap-[0.5vw] shadow-sm cursor-pointer bg-white/60 backdrop-blur-xs"
                     >
                       <span>Explore Now</span>
@@ -962,6 +965,7 @@ export default function AboutPage() {
                 >
                   <Link
                     href="/explore"
+                    onClick={() => scrollToPageTop(true)}
                     className="px-[1.8vw] py-[0.6vw] bg-[#FF2D75] hover:bg-[#E02667] text-white font-extrabold text-[0.9vw] rounded-full shadow-[0_4px_18px_rgba(255,45,117,0.35)] transition-all flex items-center gap-[0.5vw] cursor-pointer"
                   >
                     <span>Explore Packages</span>
@@ -1226,13 +1230,15 @@ export default function AboutPage() {
               </div>
 
               {/* 3. Right: Pink Watercolor Blush Splash with "Let's Explore Together" - Fades In */}
-              <div
+              <Link
+                href="/explore"
+                onClick={() => scrollToPageTop(true)}
                 style={{
                   opacity: sec5.isVisible ? 1 : 0,
                   transform: sec5.isVisible ? "translate3d(0, 0, 0) scale(1)" : "translate3d(40px, 0, 0) scale(0.9)",
                   transition: "opacity 0.75s ease-out 1.0s, transform 0.75s ease-out 1.0s",
                 }}
-                className="relative z-10 flex flex-col items-center justify-center p-[1.5vw] mr-[vw] mb-[4vw] shrink-0 min-w-[20vw] min-h-[14vw]"
+                className="relative z-10 flex flex-col items-center justify-center p-[1.5vw] mr-[vw] mb-[4vw] shrink-0 min-w-[20vw] min-h-[14vw] cursor-pointer group hover:scale-105 transition-transform"
               >
                 {/* Dark Blush Watercolor Brush Splash Overlay */}
                 <div className="absolute inset-0 w-full h-full transform scale-125 -rotate-2 pointer-events-none opacity-95">
@@ -1249,15 +1255,15 @@ export default function AboutPage() {
                   {/* Spark line decorations */}
                   <div className="relative flex flex-col items-center">
                     {/* Top-left & Top-right Spark dashes */}
-                    <span className="font-script text-3xl sm:text-4xl lg:text-[2.6vw] font-bold text-[#FF2D75] leading-tight select-none drop-shadow-2xs">
+                    <span className="font-script text-3xl sm:text-4xl lg:text-[2.6vw] font-bold text-[#FF2D75] leading-tight select-none drop-shadow-2xs group-hover:scale-105 transition-transform">
                       Let&apos;s Explore
                     </span>
-                    <span className="font-script text-3xl sm:text-4xl lg:text-[2.8vw] font-bold text-[#FF2D75] leading-tight select-none drop-shadow-2xs mt-[-0.3vh]">
+                    <span className="font-script text-3xl sm:text-4xl lg:text-[2.8vw] font-bold text-[#FF2D75] leading-tight select-none drop-shadow-2xs mt-[-0.3vh] group-hover:scale-105 transition-transform">
                       Together
                     </span>
                   </div>
                 </div>
-              </div>
+              </Link>
 
             </div>
           </section>

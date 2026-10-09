@@ -5,9 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { scrollToPageTop } from "@/components/SmoothScroll";
+import { useAuthModal } from "@/context/AuthModalContext";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { openAuthModal } = useAuthModal();
 
   const navItems = [
     {
@@ -105,8 +107,9 @@ export default function Navbar() {
       <div className="flex items-center">
         <button
           type="button"
+          onClick={() => openAuthModal("signin")}
           suppressHydrationWarning
-          className="flex items-center gap-[0.5vw] bg-white hover:bg-pink-50/50 text-[#FF2D75] font-semibold px-[1.2vw] py-[0.6vh] rounded-full border border-pink-200 hover:border-pink-300 transition-all duration-200 shadow-xs cursor-pointer"
+          className="flex items-center gap-[0.5vw] bg-white hover:bg-pink-50/50 text-[#FF2D75] font-semibold px-[1.2vw] py-[0.6vh] rounded-full border border-pink-200 hover:border-pink-300 transition-all duration-200 shadow-xs cursor-pointer active:scale-95"
         >
           <Icon
             icon="carbon:user-avatar-filled-alt"

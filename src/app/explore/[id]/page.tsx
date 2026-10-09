@@ -4,6 +4,7 @@ import React, { useState, useEffect, use, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { scrollToPageTop } from "@/components/SmoothScroll";
 
 const packagesData: Record<string, any> = {
   "dubai-luxury": {
@@ -258,8 +259,18 @@ export default function PackageDetailPage({ params }: { params: Promise<{ id: st
   const [guestsCount, setGuestsCount] = useState<number>(2);
   const [selectedDate, setSelectedDate] = useState<string>("2026-10-15");
   const [booked, setBooked] = useState<boolean>(false);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [copied, setCopied] = useState<boolean>(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [activeHeroImg, setActiveHeroImg] = useState<number>(0);
+
+  const handleShare = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard?.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
+  };
 
   // Lock background scroll when lightbox is open
   useEffect(() => {
@@ -385,11 +396,30 @@ export default function PackageDetailPage({ params }: { params: Promise<{ id: st
                 transitionDelay: "0.28s",
               }}
             >
-              <button aria-label="Share package" className="w-10 h-10 lg:w-[2.6vw] lg:h-[2.6vw] rounded-full bg-white border border-pink-100 text-slate-600 hover:text-[#FF2D75] shadow-sm transition-colors flex items-center justify-center cursor-pointer">
-                <Icon icon="lucide:share-2" className="w-4 h-4 lg:w-[1.1vw] lg:h-[1.1vw]" />
+              <button
+                onClick={handleShare}
+                aria-label="Share package"
+                title={copied ? "Link Copied!" : "Share package"}
+                className="w-10 h-10 lg:w-[2.6vw] lg:h-[2.6vw] rounded-full bg-white border border-pink-100 text-slate-600 hover:text-[#FF2D75] shadow-sm transition-colors flex items-center justify-center cursor-pointer"
+              >
+                {copied ? (
+                  <Icon icon="lucide:check" className="w-4 h-4 lg:w-[1.1vw] lg:h-[1.1vw] text-emerald-500" />
+                ) : (
+                  <Icon icon="lucide:share-2" className="w-4 h-4 lg:w-[1.1vw] lg:h-[1.1vw]" />
+                )}
               </button>
-              <button aria-label="Save package" className="w-10 h-10 lg:w-[2.6vw] lg:h-[2.6vw] rounded-full bg-white border border-pink-100 text-slate-600 hover:text-[#FF2D75] shadow-sm transition-colors flex items-center justify-center cursor-pointer">
-                <Icon icon="lucide:heart" className="w-4 h-4 lg:w-[1.1vw] lg:h-[1.1vw]" />
+              <button
+                onClick={() => setIsSaved(!isSaved)}
+                aria-label="Save package"
+                title={isSaved ? "Saved" : "Save package"}
+                className={`w-10 h-10 lg:w-[2.6vw] lg:h-[2.6vw] rounded-full border border-pink-100 shadow-sm transition-colors flex items-center justify-center cursor-pointer ${
+                  isSaved ? "bg-pink-50 text-[#FF2D75] border-pink-300" : "bg-white text-slate-600 hover:text-[#FF2D75]"
+                }`}
+              >
+                <Icon
+                  icon={isSaved ? "ph:heart-fill" : "lucide:heart"}
+                  className="w-4 h-4 lg:w-[1.1vw] lg:h-[1.1vw] text-[#FF2D75]"
+                />
               </button>
             </div>
           </div>
@@ -871,9 +901,27 @@ export default function PackageDetailPage({ params }: { params: Promise<{ id: st
                       <Icon icon="lucide:check" className="w-5 h-5 lg:w-[1.2vw] lg:h-[1.2vw]" />
                     </div>
                     <h4 className="font-extrabold text-slate-900 text-sm lg:text-[0.95vw] mb-[0.4vh]">Trip Request Received!</h4>
-                    <p className="text-xs lg:text-[0.78vw] text-slate-600">
+                    <p className="text-xs lg:text-[0.78vw] text-slate-600 mb-[1.5vh]">
                       Our concierges will contact you within 2 hours to finalize your itinerary.
                     </p>
+                    <div className="flex flex-col gap-2 pt-1">
+                      <Link
+                        href="/plan-trip"
+                        onClick={() => scrollToPageTop(true)}
+                        className="w-full py-2 bg-gradient-to-r from-[#FF2D75] to-[#FF5E97] text-white text-xs lg:text-[0.8vw] font-bold rounded-full shadow hover:opacity-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <Icon icon="lucide:sparkles" className="w-3.5 h-3.5" />
+                        <span>Customize Interactive Map</span>
+                      </Link>
+                      <Link
+                        href="/explore"
+                        onClick={() => scrollToPageTop(true)}
+                        className="w-full py-2 bg-white text-slate-700 hover:text-[#FF2D75] border border-pink-200 text-xs lg:text-[0.8vw] font-bold rounded-full transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <Icon icon="lucide:compass" className="w-3.5 h-3.5" />
+                        <span>Explore More Packages</span>
+                      </Link>
+                    </div>
                   </div>
                 ) : (
                   <div className="space-y-[1.6vh]">

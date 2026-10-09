@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "./Navbar";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
+import { AuthModalProvider } from "@/context/AuthModalContext";
+import { AuthModal } from "@/components/Login";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -39,6 +41,16 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://thewowworld.com"),
   alternates: {
     canonical: "/",
+  },
+  icons: {
+    icon: [
+      {
+        url: "/navBar/logo.svg",
+        type: "image/svg+xml",
+      },
+    ],
+    shortcut: "/navBar/logo.svg",
+    apple: "/navBar/logo.svg",
   },
   openGraph: {
     title: "The Wow World | Discover & Explore World Attractions",
@@ -85,6 +97,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${outfit.variable} ${plusJakarta.variable} h-full antialiased`}
     >
       <head>
+        <link rel="icon" href="/navBar/logo.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/navBar/logo.svg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -93,11 +107,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body suppressHydrationWarning className="min-h-screen flex flex-col bg-white text-zinc-900 font-sans">
-        <SmoothScroll>
-          <Navbar />
-          <main id="main-content" className="flex-1 -mt-[2vh] flex flex-col relative w-full">{children}</main>
-          <Footer />
-        </SmoothScroll>
+        <AuthModalProvider>
+          <SmoothScroll>
+            <Navbar />
+            <main id="main-content" className="flex-1 -mt-[2vh] flex flex-col relative w-full">{children}</main>
+            <Footer />
+          </SmoothScroll>
+          <AuthModal />
+        </AuthModalProvider>
       </body>
     </html>
   );

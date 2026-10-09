@@ -2,7 +2,9 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { scrollToPageTop } from "@/components/SmoothScroll";
 
 // Reusable scroll-reveal hook
 function useScrollReveal(threshold = 0.82) {
@@ -839,7 +841,7 @@ export default function ContactPage() {
                       <span>India</span>
                     </div>
                   </div>
-                  <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="px-[1vw] py-[0.5vw] rounded-full border border-pink-200 hover:border-[#FF2D75] bg-white text-[#FF2D75] text-[0.8vw] font-bold flex items-center gap-[0.4vw] hover:bg-pink-50 transition-all shadow-sm">
+                  <a href="https://www.google.com/maps/search/?api=1&query=47%2F5B+VOC+NAGAR+NAGARAM+ROAD+PATTUKOTTAI+THANJAVOUR+614609+TN+INDIA" target="_blank" rel="noreferrer" className="px-[1vw] py-[0.5vw] rounded-full border border-pink-200 hover:border-[#FF2D75] bg-white text-[#FF2D75] text-[0.8vw] font-bold flex items-center gap-[0.4vw] hover:bg-pink-50 transition-all shadow-sm">
                     <Icon icon="lucide:map-pin" className="w-[0.8vw] h-[0.8vw]" />
                     <span>View on Map →</span>
                   </a>
@@ -847,15 +849,15 @@ export default function ContactPage() {
 
                 <div className="space-y-[0.6vh] text-[0.85vw] text-slate-600 relative z-10">
                   <p className="font-medium max-w-[20vw] leading-snug">
-                    151,2A shop No 121 camp road, Selaiyur Chennai - 600073, Tamilnadu.
+                    47/5B , VOC NAGAR, NAGARAM ROAD, PATTUKOTTAI, THANJAVOUR-614609, TN, INDIA.
                   </p>
                   <div className="flex items-center gap-[0.5vw] text-slate-700 pt-[0.4vh]">
                     <Icon icon="lucide:phone" className="w-[0.9vw] h-[0.9vw] text-[#FF2D75]" />
-                    <span>+91 98765 43210</span>
+                    <a href="tel:+919384589936" className="hover:text-[#FF2D75] transition-colors">+91 93845 89936</a>
                   </div>
                   <div className="flex items-center gap-[0.5vw] text-slate-700">
                     <Icon icon="lucide:mail" className="w-[0.9vw] h-[0.9vw] text-[#FF2D75]" />
-                    <span>india@tourvista.com</span>
+                    <a href="mailto:info@thewowworld.com" className="hover:text-[#FF2D75] transition-colors">info@thewowworld.com</a>
                   </div>
                 </div>
 
@@ -890,7 +892,7 @@ export default function ContactPage() {
                       <span>New York, USA</span>
                     </div>
                   </div>
-                  <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="px-[1vw] py-[0.5vw] rounded-full border border-pink-200 hover:border-[#FF2D75] bg-white text-[#FF2D75] text-[0.8vw] font-bold flex items-center gap-[0.4vw] hover:bg-pink-50 transition-all shadow-sm">
+                  <a href="https://www.google.com/maps/search/?api=1&query=350+Madison+Ave+New+York+NY+10017" target="_blank" rel="noreferrer" className="px-[1vw] py-[0.5vw] rounded-full border border-pink-200 hover:border-[#FF2D75] bg-white text-[#FF2D75] text-[0.8vw] font-bold flex items-center gap-[0.4vw] hover:bg-pink-50 transition-all shadow-sm">
                     <Icon icon="lucide:map-pin" className="w-[0.8vw] h-[0.8vw]" />
                     <span>View on Map →</span>
                   </a>
@@ -906,7 +908,7 @@ export default function ContactPage() {
                   </div>
                   <div className="flex items-center gap-[0.5vw] text-slate-700">
                     <Icon icon="lucide:mail" className="w-[0.9vw] h-[0.9vw] text-[#FF2D75]" />
-                    <span>hello@tourvista.com</span>
+                    <span>usa@thewowworld.com</span>
                   </div>
                 </div>
 
@@ -941,7 +943,7 @@ export default function ContactPage() {
                       <span>London, UK</span>
                     </div>
                   </div>
-                  <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="px-[1vw] py-[0.5vw] rounded-full border border-pink-200 hover:border-[#FF2D75] bg-white text-[#FF2D75] text-[0.8vw] font-bold flex items-center gap-[0.4vw] hover:bg-pink-50 transition-all shadow-sm">
+                  <a href="https://www.google.com/maps/search/?api=1&query=71-75+Shelton+Street+Covent+Garden+London+WC2H+9JQ" target="_blank" rel="noreferrer" className="px-[1vw] py-[0.5vw] rounded-full border border-pink-200 hover:border-[#FF2D75] bg-white text-[#FF2D75] text-[0.8vw] font-bold flex items-center gap-[0.4vw] hover:bg-pink-50 transition-all shadow-sm">
                     <Icon icon="lucide:map-pin" className="w-[0.8vw] h-[0.8vw]" />
                     <span>View on Map →</span>
                   </a>
@@ -957,7 +959,7 @@ export default function ContactPage() {
                   </div>
                   <div className="flex items-center gap-[0.5vw] text-slate-700">
                     <Icon icon="lucide:mail" className="w-[0.9vw] h-[0.9vw] text-[#FF2D75]" />
-                    <span>london@tourvista.com</span>
+                    <span>london@thewowworld.com</span>
                   </div>
                 </div>
 
@@ -992,7 +994,7 @@ export default function ContactPage() {
                       <span>Singapore</span>
                     </div>
                   </div>
-                  <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="px-[1vw] py-[0.5vw] rounded-full border border-pink-200 hover:border-[#FF2D75] bg-white text-[#FF2D75] text-[0.8vw] font-bold flex items-center gap-[0.4vw] hover:bg-pink-50 transition-all shadow-sm">
+                  <a href="https://www.google.com/maps/search/?api=1&query=8+Marina+Boulevard+Marina+Bay+Financial+Centre+Singapore+018981" target="_blank" rel="noreferrer" className="px-[1vw] py-[0.5vw] rounded-full border border-pink-200 hover:border-[#FF2D75] bg-white text-[#FF2D75] text-[0.8vw] font-bold flex items-center gap-[0.4vw] hover:bg-pink-50 transition-all shadow-sm">
                     <Icon icon="lucide:map-pin" className="w-[0.8vw] h-[0.8vw]" />
                     <span>View on Map →</span>
                   </a>
@@ -1008,7 +1010,7 @@ export default function ContactPage() {
                   </div>
                   <div className="flex items-center gap-[0.5vw] text-slate-700">
                     <Icon icon="lucide:mail" className="w-[0.9vw] h-[0.9vw] text-[#FF2D75]" />
-                    <span>singapore@tourvista.com</span>
+                    <span>singapore@thewowworld.com</span>
                   </div>
                 </div>
 
@@ -1043,7 +1045,7 @@ export default function ContactPage() {
                       <span>Dubai, UAE</span>
                     </div>
                   </div>
-                  <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="px-[1vw] py-[0.5vw] rounded-full border border-pink-200 hover:border-[#FF2D75] bg-white text-[#FF2D75] text-[0.8vw] font-bold flex items-center gap-[0.4vw] hover:bg-pink-50 transition-all shadow-sm">
+                  <a href="https://www.google.com/maps/search/?api=1&query=The+Prism+Tower+Business+Bay+Dubai+UAE" target="_blank" rel="noreferrer" className="px-[1vw] py-[0.5vw] rounded-full border border-pink-200 hover:border-[#FF2D75] bg-white text-[#FF2D75] text-[0.8vw] font-bold flex items-center gap-[0.4vw] hover:bg-pink-50 transition-all shadow-sm">
                     <Icon icon="lucide:map-pin" className="w-[0.8vw] h-[0.8vw]" />
                     <span>View on Map →</span>
                   </a>
@@ -1059,7 +1061,7 @@ export default function ContactPage() {
                   </div>
                   <div className="flex items-center gap-[0.5vw] text-slate-700">
                     <Icon icon="lucide:mail" className="w-[0.9vw] h-[0.9vw] text-[#FF2D75]" />
-                    <span>dubai@tourvista.com</span>
+                    <span>dubai@thewowworld.com</span>
                   </div>
                 </div>
 
@@ -1106,30 +1108,29 @@ export default function ContactPage() {
                   {/* Right Column: Contact Links Stack (Spread Evenly) */}
                   <div className="flex flex-col justify-between text-[0.85vw] sm:border-l sm:border-pink-100 sm:pl-[1.5vw] py-[0.2vh]">
                     
-                    {/* Phone Numbers */}
-                    <div className="flex items-center gap-[0.8vw]">
-                      <div className="w-[2vw] h-[2vw] rounded-full bg-[#FF2D75] text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+                    {/* Phone Number */}
+                    <a href="tel:+919384589936" className="flex items-center gap-[0.8vw] group hover:opacity-90 transition-opacity">
+                      <div className="w-[2vw] h-[2vw] rounded-full bg-[#FF2D75] text-white flex items-center justify-center flex-shrink-0 shadow-sm group-hover:scale-110 transition-transform">
                         <Icon icon="lucide:phone-call" className="w-[0.9vw] h-[0.9vw]" />
                       </div>
                       <div className="flex flex-col text-slate-800 font-bold text-[0.85vw] leading-tight">
-                        <span>+91 98422 04966</span>
-                        <span>+91 88830 11166</span>
+                        <span className="hover:text-[#FF2D75] transition-colors">+91 93845 89936</span>
                       </div>
-                    </div>
+                    </a>
 
                     {/* Email */}
-                    <div className="flex items-center gap-[0.8vw]">
-                      <div className="w-[2vw] h-[2vw] rounded-full bg-[#FF2D75] text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+                    <a href="mailto:info@thewowworld.com" className="flex items-center gap-[0.8vw] group hover:opacity-90 transition-opacity">
+                      <div className="w-[2vw] h-[2vw] rounded-full bg-[#FF2D75] text-white flex items-center justify-center flex-shrink-0 shadow-sm group-hover:scale-110 transition-transform">
                         <Icon icon="lucide:mail" className="w-[0.9vw] h-[0.9vw]" />
                       </div>
-                      <span className="text-slate-800 font-bold text-[0.82vw] truncate">
-                        mathuramindia@gmail.com
+                      <span className="text-slate-800 font-bold text-[0.82vw] truncate hover:text-[#FF2D75] transition-colors">
+                        info@thewowworld.com
                       </span>
-                    </div>
+                    </a>
 
                     {/* Whatsapp Enquiry Button */}
                     <a
-                      href="https://wa.me/919842204966"
+                      href="https://wa.me/919384589936"
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-[0.6vw] text-[#25D366] hover:text-[#1eb854] font-extrabold text-[0.9vw] transition-colors group cursor-pointer"
@@ -1215,15 +1216,15 @@ export default function ContactPage() {
                   transitionDelay: "0.5s",
                 }}
               >
-                <button
-                  suppressHydrationWarning
-                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                <Link
+                  href="/plan-trip"
+                  onClick={() => scrollToPageTop(true)}
                   className="px-[2.4vw] py-[0.9vw] bg-gradient-to-r from-[#FF2D75] to-[#FF5E97] hover:from-[#e62066] hover:to-[#ff4785] text-white font-bold text-[1vw] rounded-full shadow-[0_0.5vw_1.5vw_rgba(255,45,117,0.35)] hover:shadow-[0_0.8vw_2vw_rgba(255,45,117,0.45)] transition-all duration-300 hover:scale-105 flex items-center gap-[0.6vw] cursor-pointer"
                 >
                   <Icon icon="lucide:send" className="w-[1.1vw] h-[1.1vw]" />
                   <span>Start Your Journey</span>
                   <Icon icon="lucide:arrow-right" className="w-[1.1vw] h-[1.1vw]" />
-                </button>
+                </Link>
               </div>
 
             </div>
