@@ -210,7 +210,7 @@ export default function PopularDestinationsSection() {
     <section
       id="popular-destinations-section"
       ref={sectionRef}
-      className="relative w-full min-h-screen lg:h-screen lg:max-h-screen bg-[#FFF0F4] py-3 sm:py-5 md:py-[2.5vh] px-3 sm:px-6 md:px-[3vw] overflow-hidden flex flex-col justify-between items-center select-none z-10"
+      className="relative w-full min-h-screen lg:h-screen lg:max-h-screen bg-[#FFF0F4] py-6 sm:py-8 md:py-[4vh] px-3 sm:px-6 md:px-[3vw] overflow-hidden flex flex-col justify-center items-center gap-6 sm:gap-8 md:gap-10 select-none z-10"
     >
       {/* Background Graphic Stream (section2bg.webp) with Soft Faded Edge Blends */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
@@ -226,9 +226,9 @@ export default function PopularDestinationsSection() {
       </div>
 
       {/* Main Header Container with Staggered Entrance */}
-      <div className="relative z-10 flex flex-col items-center text-center w-full mt-1 sm:mt-2 md:mt-[1vh]">
+      <div className="relative z-10 flex flex-col items-center text-center w-full mt-0">
         {/* Stacked Heading: Faded "Destinations" + Foreground "Top Travel" (1st Line) */}
-        <div className="relative flex flex-col items-center justify-center mb-1 sm:mb-2 md:mb-[1.2vh] w-full">
+        <div className="relative flex flex-col items-center justify-center mb-2 sm:mb-3 md:mb-4 w-full">
           {/* Faded Background Text with Dramatic Zoom, Blur & Fade */}
           <h2
             className={`text-[clamp(48px,7.5vw,130px)] font-black text-[#FFB6C1] tracking-normal italic leading-none select-none [mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_40%,rgba(0,0,0,0.15)_85%,rgba(0,0,0,0)_100%)] [-webkit-mask-image:linear-gradient(to_bottom,rgba(0,0,0,1)_40%,rgba(0,0,0,0.15)_85%,rgba(0,0,0,0)_100%)] transition-all duration-900 ease-out ${
@@ -268,7 +268,7 @@ export default function PopularDestinationsSection() {
 
       {/* Interactive Destination Cards Fan-Out Carousel Container */}
       <div
-        className="relative z-10 w-full max-w-[1400px] flex items-center justify-center px-1 sm:px-4 md:px-[2vw] mb-2 sm:mb-4 md:mb-[2vh]"
+        className="relative z-10 w-full max-w-[1450px] flex items-center justify-center px-1 sm:px-4 md:px-[2vw] mt-3 sm:mt-5 md:mt-7 mb-0"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -284,7 +284,7 @@ export default function PopularDestinationsSection() {
         </button>
 
         {/* Absolute Position Stacking Container - 5 Visible Arched Cards with Dramatic Spring Stagger */}
-        <div className="relative w-full h-[clamp(260px,38vh,360px)] flex items-center justify-center overflow-visible">
+        <div className="relative w-full h-[clamp(300px,44vh,410px)] flex items-center justify-center overflow-visible">
           {destinationsData.map((item, i) => {
             // Pos calculation: (i - activeIndex + length) % length
             const rawPos = (i - activeIndex + destinationsData.length) % destinationsData.length;
@@ -302,15 +302,15 @@ export default function PopularDestinationsSection() {
             const slotIndex = relativeOffset + 2;
             const isCardRevealed = revealedCards > slotIndex;
 
-            // Step distance adapted to screen width
+            // Step distance adapted to screen width for larger cards
             const stepX =
               windowWidth < 640
-                ? 110
+                ? 125
                 : windowWidth < 1024
-                ? 155
+                ? 175
                 : windowWidth < 1280
-                ? 185
-                : 215;
+                ? 210
+                : 245;
 
             // 5 Visible Card Slots: -2 (far left), -1 (left), 0 (center), 1 (right), 2 (far right)
             let posX = relativeOffset * stepX;
@@ -320,18 +320,18 @@ export default function PopularDestinationsSection() {
             let baseOpacity = absOffset <= 2 ? 1 : 0; // Show 5 cards, hide offscreen
             let zIndex = isCenter ? 30 : 30 - absOffset * 10;
 
-            // Adaptive card width & height (clamped with vh/vw so it fits on short laptops as well as tall desktops)
+            // Increased adaptive card width & height
             const widthClass = isCenter
-              ? "w-[clamp(160px,13.5vw,215px)]"
+              ? "w-[clamp(185px,16vw,255px)]"
               : absOffset === 1
-              ? "w-[clamp(140px,11.5vw,185px)]"
-              : "w-[clamp(120px,10vw,160px)]";
+              ? "w-[clamp(160px,13.5vw,220px)]"
+              : "w-[clamp(135px,11.5vw,185px)]";
 
             const heightClass = isCenter
-              ? "h-[clamp(220px,33vh,300px)]"
+              ? "h-[clamp(260px,38vh,355px)]"
               : absOffset === 1
-              ? "h-[clamp(195px,29vh,265px)]"
-              : "h-[clamp(170px,25vh,230px)]";
+              ? "h-[clamp(230px,34vh,315px)]"
+              : "h-[clamp(200px,29vh,270px)]";
 
             // Dramatic, highly visible spring entrance before reveal
             const currentOpacity = isCardRevealed ? baseOpacity : 0;
@@ -370,7 +370,7 @@ export default function PopularDestinationsSection() {
                 )}
 
                 {/* Inner Image Container */}
-                <div className="relative w-full h-[calc(100%-48px)] sm:h-[calc(100%-54px)] rounded-[16px] sm:rounded-[20px] overflow-hidden bg-gray-100">
+                <div className="relative w-full h-[calc(100%-52px)] sm:h-[calc(100%-58px)] rounded-[16px] sm:rounded-[20px] overflow-hidden bg-gray-100">
                   <Image
                     src={item.image}
                     alt={`${item.name}, ${item.country}`}
@@ -382,16 +382,16 @@ export default function PopularDestinationsSection() {
                 </div>
 
                 {/* Bottom Floating Info Pill with Pink Glow Shadow on Hover */}
-                <div className="absolute bottom-1.5 sm:bottom-2 left-1.5 sm:left-2 right-1.5 sm:right-2 bg-white/95 backdrop-blur-md rounded-[12px] sm:rounded-[14px] p-1.5 sm:p-2 shadow-md hover:shadow-[0_8px_25px_rgba(255,42,117,0.35)] flex items-center justify-between border border-white/80 hover:border-[#FF2A75]/40 transition-all duration-300 group/pill">
+                <div className="absolute bottom-1.5 sm:bottom-2 left-1.5 sm:left-2 right-1.5 sm:right-2 bg-white/95 backdrop-blur-md rounded-[12px] sm:rounded-[14px] p-1.5 sm:p-2.5 shadow-md hover:shadow-[0_8px_25px_rgba(255,42,117,0.35)] flex items-center justify-between border border-white/80 hover:border-[#FF2A75]/40 transition-all duration-300 group/pill">
                   <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
                     <div className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full bg-[#FF2A75]/10 flex items-center justify-center flex-shrink-0">
                       <Icon icon="ph:map-pin-fill" className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#FF2A75]" />
                     </div>
                     <div className="flex flex-col min-w-0">
-                      <span className="text-[10px] sm:text-[11px] md:text-xs font-extrabold text-[#141416] leading-tight truncate">
+                      <span className="text-[11px] sm:text-xs md:text-[13px] font-extrabold text-[#141416] leading-tight truncate">
                         {item.name}
                       </span>
-                      <span className="text-[8px] sm:text-[9px] md:text-[10px] font-medium text-gray-500 truncate">
+                      <span className="text-[9px] sm:text-[10px] md:text-[11px] font-medium text-gray-500 truncate">
                         {item.country}
                       </span>
                     </div>
